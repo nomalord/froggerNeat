@@ -13,7 +13,7 @@ __Then move to the project directory and run javac, java__
 ```
 cd ../Frogger
 javac frogger/main.java
-java frogger.main
+java genetic_algorithm.neat.main
 ```
 __Enjoy!__
 
