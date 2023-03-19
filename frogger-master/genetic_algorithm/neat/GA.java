@@ -4,34 +4,58 @@ import genetic_algorithm.neat.genome.GenomeFrame;
 import genetic_algorithm.neat.neat.Client;
 import genetic_algorithm.neat.neat.Neat;
 
+import java.io.*;
+
 public class GA {
 
-    public static void rateClient(Display game, Client client){
+    public static void rateClient(Display game, Client client) throws IOException, ClassNotFoundException {
         game.reset();
 
         int iteration = 0;
-        while(iteration < 20 && game.isGameOver() == false){
-            iteration ++;
-            game.move(client,false);
-            }
-        client.setScore(game.getNeatScore());
+        int iterationYDidntChange = 0;
+        int iterationXDidntChange = 0;
+        while(iteration < 5000 && game.isGameOver() == false && iterationYDidntChange < 20 && iterationXDidntChange < 20) {
+
+            iteration++;
+            game.move(client, false);
+
+            if (game.getCurrentY() == game.getPreviousY()) {
+                iterationYDidntChange++;
+            } else
+                iterationYDidntChange = 0;
+
+            if (game.getCurrentX() == game.getPreviousX()) {
+                iterationXDidntChange++;
+            } else
+                iterationXDidntChange = 0;
+        }
+        if(iterationYDidntChange == 0 && iterationXDidntChange == 0) {
+            client.setScore(0);
+            game.setDeaths(0);
+            game.setScore(0);
+            return;
+        }
+        int timeBasedReward = game.getTimeBasedReward(iteration);
+        int score = 50 + game.getScore() * 100 - game.GetDeaths() * 100
+                + game.getCheckpointReward() + timeBasedReward + game.getDistanceScore();
+        client.setScore(score);
         game.setDeaths(0);
         game.setScore(0);
     }
 
-    public static void evolve(Display game, Neat neat){
+    public static void evolve(Display game, Neat neat) throws IOException, ClassNotFoundException {
         for(int i = 0; i < neat.getMax_clients(); i++){
             rateClient(game, neat.getClient(i));
         }
         neat.evolve();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         Display game = new Display();
         game.SetNeat(true);
 
-        Neat neat = new Neat(4,3,1000);
+        Neat neat = new Neat(30,3,1000);
         neat.setCP(3);
 
         neat.setPROBABILITY_MUTATE_WEIGHT_RANDOM(0.01);
@@ -48,7 +72,7 @@ public class GA {
         }
 
 
-        for(int i = 0; i < 1000; i++){
+        for(int i = 0; i < 100; i++){
             System.out.println("#################### " + i + " ######################");
             evolve(game, neat);
             neat.printSpecies();
@@ -62,10 +86,31 @@ public class GA {
 
 
         new GenomeFrame(neat.getBestClient().getGenome());
+        File f = new File("C:\\Users\\nkous\\Desktop\\Neat 2023\\frogger-simple\\client.txt");
+        if(!f.exists() && f.isDirectory()) {
+            serializeDataOut(neat.getBestClient());//save the best client
+        }
         game = new Display();
         game.SetNeat(true);
         new Frame(game, neat.getBestClient());
 
     }
 
+
+    public static void serializeDataOut(Client client) throws IOException {
+        String fileName= "client.txt";
+        FileOutputStream fos = new FileOutputStream(fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(client);
+        oos.close();
+    }
+
+    public static Client serializeDataIn() throws IOException, ClassNotFoundException {
+        String fileName= "client.txt";
+        FileInputStream fin = new FileInputStream(fileName);
+        ObjectInputStream ois = new ObjectInputStream(fin);
+        Client client= (Client) ois.readObject();
+        ois.close();
+        return client;
+    }
 }

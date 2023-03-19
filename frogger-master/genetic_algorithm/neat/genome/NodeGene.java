@@ -1,6 +1,8 @@
 package genetic_algorithm.neat.genome;
 
-public class NodeGene extends Gene{
+import java.io.Serializable;
+
+public class NodeGene extends Gene implements Serializable {
 
 
     private double x,y;

@@ -4,9 +4,10 @@ package genetic_algorithm.neat.neat;
 import genetic_algorithm.neat.data_structures.RandomHashSet;
 import genetic_algorithm.neat.genome.Genome;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class Species {
+public class Species implements Serializable {
 
     private RandomHashSet<Client> clients = new RandomHashSet<>();
     private Client representative;

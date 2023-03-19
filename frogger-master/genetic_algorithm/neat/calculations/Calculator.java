@@ -6,11 +6,12 @@ import genetic_algorithm.neat.genome.ConnectionGene;
 import genetic_algorithm.neat.genome.Genome;
 import genetic_algorithm.neat.genome.NodeGene;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class Calculator {
+public class Calculator implements Serializable {
 
     private ArrayList<Node> input_nodes = new ArrayList<>();
     private ArrayList<Node> hidden_nodes = new ArrayList<>();

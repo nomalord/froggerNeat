@@ -3,10 +3,11 @@ package genetic_algorithm.neat.data_structures;
 
 import genetic_algorithm.neat.genome.Gene;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class RandomHashSet<T> {
+public class RandomHashSet<T> implements Serializable {
 
     HashSet<T> set;
     ArrayList<T> data;

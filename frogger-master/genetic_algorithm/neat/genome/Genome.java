@@ -4,7 +4,9 @@ package genetic_algorithm.neat.genome;
 import genetic_algorithm.neat.data_structures.RandomHashSet;
 import genetic_algorithm.neat.neat.Neat;
 
-public class Genome {
+import java.io.Serializable;
+
+public class Genome implements Serializable {
 
     private RandomHashSet<ConnectionGene> connections = new RandomHashSet<>();
     private RandomHashSet<NodeGene> nodes = new RandomHashSet<>();

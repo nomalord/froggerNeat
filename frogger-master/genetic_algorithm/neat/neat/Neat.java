@@ -7,9 +7,10 @@ import genetic_algorithm.neat.genome.ConnectionGene;
 import genetic_algorithm.neat.genome.Genome;
 import genetic_algorithm.neat.genome.NodeGene;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Neat {
+public class Neat implements Serializable {
 
     public static final int MAX_NODES = (int)Math.pow(2,20);
 
@@ -167,7 +168,9 @@ public class Neat {
 
         for(Client c:clients.getData()){
             if(c.getSpecies() == null){
-                Species s = selector.random();
+                Species s = null;
+                s = selector.random();
+
                 c.setGenome(s.breed());
                 s.force_put(c);
             }

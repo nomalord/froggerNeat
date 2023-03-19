@@ -24,6 +24,9 @@ public class RandomSelector<T> {
                 return objects.get(i);
             }
         }
+        if(objects.size() == 1){
+            return objects.get(0);
+        }
         return null;
     }
 

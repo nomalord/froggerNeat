@@ -4,7 +4,9 @@ package genetic_algorithm.neat.neat;
 import genetic_algorithm.neat.calculations.Calculator;
 import genetic_algorithm.neat.genome.Genome;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable {
 
     private Calculator calculator;
 

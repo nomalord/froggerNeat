@@ -1,6 +1,8 @@
 package genetic_algorithm.neat.genome;
 
-public class Gene {
+import java.io.Serializable;
+
+public class Gene implements Serializable {
 
     protected int innovation_number;
 
